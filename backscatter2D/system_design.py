@@ -477,7 +477,6 @@ class BackscatterSystem(object):
 
         self.Collimator.construct_grid(self.Detector)
 
-
 class XRayFanBeam(object):
     '''
     Parameters Needed from User:

@@ -45,7 +45,7 @@ can give each component.
 ```
 detector = system_design.Detector(angle=50.)
 
-collimator = system_design.UniformCollimator(y_resolution=3.)
+collimator = system_design.UniformCollimator(length=6.5)
 
 collimator.construct_grid(detector)
 
