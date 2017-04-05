@@ -448,12 +448,10 @@ def create_collimation_cards(system, TR):
     Creates surface, cell, and material cards for the collimation grid
 
     '''
-    if not isinstance(system.Collimator, design.Collimator) and \
-       not isinstance(system.Collimator, design.UniformCollimator):
+    if not isinstance(system.Collimator, design.UniformCollimator):
 
-        print "\nError: did not receive an instance of system_design.Collimator"
-
-        print "or system_design.UniformCollimator"
+        print "\nError: did not receive an instance of " +\
+              "system_design.UniformCollimator"
 
         return
 

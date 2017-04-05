@@ -26,6 +26,11 @@ cooridnate Meshtallies that are output by MCNP simulations and store it in an
 object. Can use methods like imshow() from matplotlib.pyplot to view 
 backscatter images. image_utils.py is still under construction but contains handy functions for image analysis. 
 
+__Current (Posible) Bug__: after closing the window when calling the system.
+visualize() function, I recevie a segmentation fault 11 code. This may be due to 
+my own python installation and other system properties so I do not know if other 
+users will face this problem.
+
 # Examples on How to Use:
 
 ## Create a backscatter system from scratch:
@@ -51,7 +56,11 @@ collimator.construct_grid(detector)
 
 system = system_design.BackscatterSystem(beam_input=None, det_input=detector, 
                                                   collimator_input=collimator)
+
 ```
+This sets the step size the system will move when scanning across an object
+
+`system.step_size = .5 `
 
 ## Visualize your newly created system
 
@@ -61,12 +70,14 @@ from backscatter2D import visualize
 visualize.system(system)
 ```
 
-You could also view a 2D plot of the detector and collimator
+You could also view a 2D plot of the detector and collimator.
+Currently it creates this plot at an angle, since I'm unsure how to best
+rotate all the shapes correctly inside matplotlib library. 
 
 ```
 from backscatter2D import matplotting
 
-figure, axes = matplotting.yz_system(system)
+figure, axes = matplotting.xz_system(system)
 ```
 
 ## Using an X-ray Spectrum and visualization
@@ -78,7 +89,7 @@ inside example_spectra/ in order to see what spectrum files should look like.
 ```
 xray = system_design.XRayFanBeam(energy='example_spectra/150kVp.spectrum')
 
-plot.xray_spectrum(xray)
+matplotting.xray_spectrum(xray)
 ```
 
 Or
@@ -86,7 +97,7 @@ Or
 ```
 system.XRayFanBeam = xray
 
-plot.xray_spectrum(system)
+matplotting.xray_spectrum(system)
 ```
 
 If a file isn't provided, the XRayFanBeam class will default to a mono-energetic

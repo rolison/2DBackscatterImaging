@@ -304,7 +304,7 @@ class BackscatterSystem(object):
 
                 elif response == 'use defaults':
 
-                    print "\nUsing defaults established in UniformCollimator"+ 
+                    print "\nUsing defaults established in UniformCollimator"+\
                           "Class"
 
                     print "See UniformCollimator documentation to learn more."
