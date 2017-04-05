@@ -26,10 +26,10 @@ cooridnate Meshtallies that are output by MCNP simulations and store it in an
 object. Can use methods like imshow() from matplotlib.pyplot to view 
 backscatter images. image_utils.py is still under construction but contains handy functions for image analysis. 
 
-__Current (Posible) Bug__: after closing the window when calling the system.
-visualize() function, I recevie a segmentation fault 11 code. This may be due to 
-my own python installation and other system properties so I do not know if other 
-users will face this problem.
+__Current (Posible) Bug__: after closing the window when calling the 
+system.visualize() function, I recevie a segmentation fault 11 code. This may be 
+due to my own python installation and other system properties so I do not know 
+if other users will face this problem.
 
 # Examples on How to Use:
 
