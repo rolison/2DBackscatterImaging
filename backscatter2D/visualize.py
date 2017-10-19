@@ -2,7 +2,7 @@ import vtk
 import system_design
 import numpy as np
 
-def system(system):
+def system(system, show_surface=True, show_beam=True):
 
     
     # Create the graphics structure. The renderer renders into the render
@@ -40,18 +40,20 @@ def system(system):
 
     ren.AddActor(create_hexahedron_actor(det_coords, color=(92, 144, 249)))
 
-    # Add the X-ray Beam to the renderer
-    beam_coords = get_beam_vectors(system)
+    if show_beam:
+        # Add the X-ray Beam to the renderer
+        beam_coords = get_beam_vectors(system)
 
-    ren.AddActor(create_pyramid_actor(beam_coords))
+        ren.AddActor(create_pyramid_actor(beam_coords))
 
-    # Add plane showing Object surface
-    center = (system.Detector.width, 0, 0 )
-    point1 = (0, 4*system.Detector.width, 0)
-    point2 = (4*system.Detector.width, 0, 0)
+    if show_surface:
+        # Add plane showing Object surface
+        center = (system.Detector.width, 0, 0 )
+        point1 = (0, 4*system.Detector.width, 0)
+        point2 = (4*system.Detector.width, 0, 0)
 
-    ren.AddActor(create_plane_actor(center, point1, point2, 
-                                        color=(100,100,100)))
+        ren.AddActor(create_plane_actor(center, point1, point2, 
+                                            color=(100,100,100)))
 
     # Set the background and size
     ren.SetBackground(0.9, 0.9, 0.9)
@@ -216,3 +218,86 @@ def create_plane_actor(center, point1, point2, color=(0,0,0)):
     actor.GetProperty().SetColor(color)
 
     return actor
+
+def hello_world():
+    from vtk.util.colors import tomato
+
+    # This creates a polygonal cylinder model with eight circumferential
+    # facets.
+    cylinder = vtk.vtkCylinderSource()
+    cylinder.SetResolution(8)
+     
+    # The mapper is responsible for pushing the geometry into the graphics
+    # library. It may also do color mapping, if scalars or other
+    # attributes are defined.
+    cylinderMapper = vtk.vtkPolyDataMapper()
+    cylinderMapper.SetInputConnection(cylinder.GetOutputPort())
+     
+    # The actor is a grouping mechanism: besides the geometry (mapper), it
+    # also has a property, transformation matrix, and/or texture map.
+    # Here we set its color and rotate it -22.5 degrees.
+    cylinderActor = vtk.vtkActor()
+    cylinderActor.SetMapper(cylinderMapper)
+    cylinderActor.GetProperty().SetColor((0.5137254901960784, 0.5490196078431373, 0.01568627450980392))
+    cylinderActor.RotateX(30.0)
+    cylinderActor.RotateY(-45.0)
+     
+    # Create the graphics structure. The renderer renders into the render
+    # window. The render window interactor captures mouse events and will
+    # perform appropriate camera or actor manipulation depending on the
+    # nature of the events.
+    ren = vtk.vtkRenderer()
+    renWin = vtk.vtkRenderWindow()
+    renWin.AddRenderer(ren)
+    iren = vtk.vtkRenderWindowInteractor()
+    iren.SetRenderWindow(renWin)
+     
+    # Add the actors to the renderer, set the background and size
+    ren.AddActor(cylinderActor)
+    ren.SetBackground(0.1, 0.2, 0.4)
+    renWin.SetSize(200, 200)
+     
+    # This allows the interactor to initalize itself. It has to be
+    # called before an event loop.
+    iren.Initialize()
+     
+    # We'll zoom in a little by accessing the camera and invoking a "Zoom"
+    # method on it.
+    ren.ResetCamera()
+    ren.GetActiveCamera().Zoom(1.5)
+    renWin.Render()
+     
+    # Start the event loop.
+    iren.Start()
+
+
+'''
+class FinActor(vtk.vtkActor):
+
+    def __init__(self, fin, color = (186, 200, 214)):
+
+
+        self.source = vtk.vtkCubeSource()
+
+        self.source.SetXLength(fin.length)
+        self.source.SetYLength(fin.thickness)
+        self.source.SetZLength(fin.width)
+
+        cx,cy,cz = fin.v_vector + (fin.a_vector + fin.b_vector + fin.c_vector)/2.
+        self.source.SetCenter(cx,cy,cz)
+
+
+        self.Mapper = vtk.vtkPolyDataMapper()
+        self.Mapper.SetInputConnection(self.source.GetOutputPort())
+        self.SetMapper(self.Mapper)
+
+        if np.max(color) > 1.0:
+
+            self.rgb_norm = (color[0]/255., color[1]/255., color[2]/255.)
+
+        else:
+
+            self.rgb_norm = color
+
+        self.GetProperty().SetColor(self.rgb_norm)
+'''

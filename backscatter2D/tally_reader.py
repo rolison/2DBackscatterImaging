@@ -8,6 +8,10 @@ class CartesianMeshTally(object):
     (as opposd to cylindrical coordinates)
 
     Initialize it by passing a file_path to a mesh tally output file
+
+    Matrix Shape: [num_Z, num_Y, num_X, num_energy_bins]
+
+    last energy bin is the 'Total' (over all energies)
     """
 
     def __init__(self, file_path):
@@ -24,10 +28,6 @@ class CartesianMeshTally(object):
 
         energy_bin_boundaries
 
-        matrix  ( shape = (energy, x, z, y) )
-
-        matrix_total  ( shape = (x,z,y) )
-
         energy
 
         X 
@@ -40,6 +40,8 @@ class CartesianMeshTally(object):
 
         relative_error
         '''
+
+        self.file_path =  file_path
 
         f = open(file_path, 'r')
 

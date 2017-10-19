@@ -448,10 +448,12 @@ def create_collimation_cards(system, TR):
     Creates surface, cell, and material cards for the collimation grid
 
     '''
-    if not isinstance(system.Collimator, design.UniformCollimator):
+    if not isinstance(system.Collimator, design.Collimator) and \
+       not isinstance(system.Collimator, design.UniformCollimator):
 
-        print "\nError: did not receive an instance of " +\
-              "system_design.UniformCollimator"
+        print "\nError: did not receive an instance of system_design.Collimator"
+
+        print "or system_design.UniformCollimator"
 
         return
 
@@ -473,7 +475,7 @@ def create_collimation_cards(system, TR):
 
         # Round values to 3 decimal places
 
-        values =  map(lambda x: round(x, 3), np.hstack([fin.v_vector, 
+        values =  map(lambda x: round(x, 5), np.hstack([fin.v_vector, 
                                                         fin.a_vector*0.99, 
                                                         fin.b_vector, 
                                                         fin.c_vector]))
@@ -499,7 +501,7 @@ def create_collimation_cards(system, TR):
 
         # Round values to 3 decimal places
 
-        values =  map(lambda x: round(x, 3), np.hstack([fin.v_vector, 
+        values =  map(lambda x: round(x, 5), np.hstack([fin.v_vector, 
                                                         fin.a_vector, 
                                                         fin.b_vector*.99, 
                                                         fin.c_vector]))
@@ -550,7 +552,7 @@ def create_xray_collimation_cards(system, TR):
 
     xmax = ymax
 
-    values = map(lambda x: round(x, 3), [xmin, xmax, ymin, ymax, zmin, zmax])
+    values = map(lambda x: round(x, 5), [xmin, xmax, ymin, ymax, zmin, zmax])
 
     surface1 = Surface(name = '99991', TR = TR, type = 'RPP')  
 
@@ -558,7 +560,7 @@ def create_xray_collimation_cards(system, TR):
 
     surface2 = Surface(name = '99992', TR = TR, type = 'RPP')
 
-    values = map(lambda x: round(x, 3), [-xmax, -xmin, ymin, ymax, zmin, zmax])
+    values = map(lambda x: round(x, 5), [-xmax, -xmin, ymin, ymax, zmin, zmax])
 
     surface2.type_variables = ' '.join(map(str, values))
 
@@ -656,7 +658,7 @@ def create_detector_transform(system, TR):
     
     transform = CoordinateTransformation(name = TR)
 
-    values =  map(lambda x: round(x, 3), 
+    values =  map(lambda x: round(x, 5), 
                   system.Detector.v_vector + np.array([0.01, 0 , 0.01]))
 
     transform.displacement_vector = ' '.join(map(str, values))
@@ -684,7 +686,7 @@ def create_detector_cards(system, TR):
 
     surface = Surface(name = '99990', TR = TR, type = 'RPP')
 
-    values = map(lambda x: round(x, 3), [0, det.thickness,
+    values = map(lambda x: round(x, 5), [0, det.thickness,
                                          0, det.width,
                                          0, det.height])
 

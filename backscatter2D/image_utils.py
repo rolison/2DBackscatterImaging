@@ -225,11 +225,3 @@ def plotFilterByRowFromImage(image_feature, image_background, num_std, fs=20,
 
     plt.show()
 
-def plotFilterByColumnFromImage(image_feature, image_background, num_std):
-    pass
-
-def plotFilterByRowFromSelf(image, num_std):
-    pass
-
-def plotFilterByColumnFromSelf(image, num_std):
-    pass
