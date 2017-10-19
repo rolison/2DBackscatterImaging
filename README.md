@@ -11,8 +11,7 @@ There will be 3 main capabilities for this package:
 
 1) Easily and quickly design a 2D Backscatter imaging system by 
    just inputting simple system parameters (or use the default values). The code 
-   will then calculate the required dimensions for the collimation grid in order
-   to achieve the desired image resolution. 
+   will then calculate the required geometric dimensions for the components in the system. 
 
 2) visualize the system that was designed inside python 
    (using matplotlib and vtk libraries)
@@ -24,7 +23,7 @@ There will be 3 main capabilities for this package:
 __What's New__: A simple tally_reader.py has been added that can read Cartesian
 cooridnate Meshtallies that are output by MCNP simulations and store it in an
 object. Can use methods like imshow() from matplotlib.pyplot to view 
-backscatter images. image_utils.py is still under construction but contains handy functions for image analysis. 
+backscatter images. The module image_utils.py were functions I was creating/playing around with for image analysis. An hpc_utils.py file has been added which makes it much easier to create and submit all the simulations on the University of Florida's high performance computing cluster, which uses the workload manager SLURM to manage users' computing requests.
 
 __Current (Posible) Bug__: after closing the window when calling the 
 system.visualize() function, I recevie a segmentation fault 11 code. This may be 
@@ -45,7 +44,7 @@ system = system_design.BackscatterSystem()
 
 You can either add your own settings for each component or just use the
 defaults. Use the help() command for documentation on the settings you 
-can give each component.
+can give each component. NOTE: All length dimensions are in centimeters.
 
 ```
 detector = system_design.Detector(angle=50.)
@@ -58,7 +57,7 @@ system = system_design.BackscatterSystem(beam_input=None, det_input=detector,
                                                   collimator_input=collimator)
 
 ```
-This sets the step size the system will move when scanning across an object
+This sets the step size the system will move when scanning across an object. In the below example it's set to 0.5 centimeters (5 millimeters)
 
 `system.step_size = .5 `
 
